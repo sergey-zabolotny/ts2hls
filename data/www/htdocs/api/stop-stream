@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "Content-type: text/html"
+echo
+
+while read line
+do
+  eval export ${line}
+done<${REQUEST_BODY_FILE}
+
+hls_dir="/tmp/htdocs/${hash}"
+
+if [[ -f ${hls_dir}/pid ]]
+then
+	pid=$(cat ${hls_dir}/pid)
+	kill ${pid}
+	echo "0"
+else
+	echo "1"
+fi

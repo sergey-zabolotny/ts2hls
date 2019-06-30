@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker rm -f nginx-hls-proxy-8080
+docker run -d -p 8080:80 --restart always -v $(pwd)/data:/data --name nginx-hls-proxy-8080 nginx-hls-proxy:8080

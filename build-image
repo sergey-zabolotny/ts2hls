@@ -1,0 +1,16 @@
+#!/bin/bash
+
+project_name="ts2hls"
+git reset --hard
+git clean -fdx
+git pull
+docker rm -f ${project_name}
+docker build -t ${project_name} .
+docker run \
+  -d \
+  -p 8080:80 \
+  --restart always \
+  -v $(pwd)/data:/data \
+  -v /tmp/docker/${project_name}:/tmp \
+  --name ${project_name} \
+  ${project_name}
