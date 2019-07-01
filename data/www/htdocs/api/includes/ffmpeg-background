@@ -19,5 +19,5 @@ count=0
 while [[ "${count}" != "3" ]]
 do
 	let "count++"
-	ffmpeg -re -y -user_agent "OnlineTvAppDroid" -i "${source}" -codec copy -f hls -hls_init_time 1 -hls_time 5 -hls_list_size 9 -hls_base_url "${REQUEST_SCHEME}://${HTTP_HOST}/${hash}/" -hls_flags omit_endlist -hls_flags delete_segments -strftime 1 -use_localtime 1 -hls_segment_filename "${hls_dir}/stream-%s.ts" "${hls_dir}/index.m3u8" >/dev/null 2>&1
+	ffmpeg -y -user_agent "OnlineTvAppDroid" -i "${source}" -codec copy -f hls -hls_time 5 -hls_list_size 9 -hls_flags delete_segments+second_level_segment_index -hls_base_url "${REQUEST_SCHEME}://${HTTP_HOST}/${hash}/" -strftime 1 -use_localtime 1 -hls_segment_filename "${hls_dir}/stream-%s-%%04d.ts" "${hls_dir}/index.m3u8" >${hls_dir}/ffmpeg.log 2>&1
 done
