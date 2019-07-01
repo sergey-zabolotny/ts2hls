@@ -1,11 +1,8 @@
 #!/bin/bash
 
 project_name="ts2hls"
-git reset --hard
-git clean -fdx
-git pull
 docker rm -f ${project_name}
-docker build -t ${project_name} .
+docker build -t ${project_name} -f Dockerfile.alpine .
 docker run \
   -d \
   -p 8080:80 \
