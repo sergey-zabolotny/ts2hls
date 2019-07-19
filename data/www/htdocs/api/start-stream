@@ -2,23 +2,26 @@
 
 while read line
 do
-  eval export ${line}
+  eval export "${line}"
 done<${REQUEST_BODY_FILE}
-
-./includes/ffmpeg-background >/dev/null 2>&1 &
-
-pid=$!
 
 hls_dir="/tmp/htdocs/${hash}"
 
-count=0
-while [[ ! -f ${hls_dir}/index.m3u8 ]]
-do
+if [ -d ${hls_dir} ]
+then
+    cat ${hls_dir}/index.m3u8 | error/200
+else
+    ./ffmpeg-background >/dev/null 2>&1 &
+    count=0
+    while [ ! -f ${hls_dir}/index.m3u8 ]
+    do
 	let "count++"
-	[[ "${count}" == "15" ]] && { error/403; kill ${pid}; exit; }
+	if [ "${count}" == "15" ]
+	then
+	    echo "Error starting ffmpeg process..." | error/403
+	fi
 	sleep 1
-done
-
-cat ${hls_dir}/index.m3u8 | error/200
-
+    done
+    cat ${hls_dir}/index.m3u8 | error/200
+fi
 

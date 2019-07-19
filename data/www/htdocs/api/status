@@ -1,7 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
-echo "Content-type: text/html"
-echo
-
-find /tmp/cache/status -type f -ls | wc -l
+find /tmp/htdocs/ -name index.m3u8 -type f -ls | wc -l | error/200
 

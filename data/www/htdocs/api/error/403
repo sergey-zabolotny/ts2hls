@@ -1,10 +1,17 @@
 #!/bin/sh
 echo "Status: 403 Forbidden"
 echo
+
 echo "<html>"
 echo "<head><title>403 Forbidden</title></head>"
 echo "<body bgcolor="white">"
 echo "<center><h1>403 Forbidden</h1></center>"
+while read line
+do
+    echo \""${line}"\"
+done
+
+echo "<hr><center>nginx</center>"
 echo "</body>"
 echo "</html>"
 
