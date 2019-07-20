@@ -12,7 +12,7 @@ chown -R nginx:nginx /tmp/cache
 
 rm -f /run/fcgiwrap.socket
 
-fcgiwrap -f -s unix:/run/fcgiwrap.socket >/dev/null 2>&1 &
+fcgiwrap -c 4 -f -s unix:/run/fcgiwrap.socket >/dev/null 2>&1 &
 
 sleep 1
 chgrp nginx /run/fcgiwrap.socket
