@@ -12,23 +12,22 @@ then
     cat ${hls_dir}/index.m3u8 | error/200
 else
     ./ffmpeg-background >/dev/null 2>&1 &
-    count=0
     while [ ! -f ${hls_dir}/index.m3u8 ]
     do
-	let "count++"
-	if [ "${count}" == "15" ]
-	then
-	    echo "Error starting ffmpeg process..." | error/403
-	    exit
-	fi
-	sleep 1
+        sleep 1
+        process_info="$(lsof | grep "${hls_dir}/ffmpeg.log")"
+        if [ "${process_info}" == "" ]
+        then
+            echo "Error starting ffmpeg process..." | error/403
+            exit
+        fi
     done
     # return m3u8 index to client only if we have minimum 2 chunks
     chunks_count=0
     while [ "${chunks_count}" -lt "2" ]
     do
-	chunks_count="$(grep '^/' ${hls_dir}/index.m3u8 | wc -l)"
-	sleep 1
+        chunks_count="$(grep '^/' ${hls_dir}/index.m3u8 | wc -l)"
+        sleep 1
     done
     cat ${hls_dir}/index.m3u8 | error/200
 fi
