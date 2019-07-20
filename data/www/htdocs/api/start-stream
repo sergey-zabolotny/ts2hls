@@ -19,6 +19,7 @@ else
 	if [ "${count}" == "15" ]
 	then
 	    echo "Error starting ffmpeg process..." | error/403
+	    exit
 	fi
 	sleep 1
     done
