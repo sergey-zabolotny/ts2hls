@@ -27,7 +27,7 @@ else
     chunks_count=0
     while [ "${chunks_count}" -lt "2" ]
     do
-	chunks_count="$(cat ${hls_dir}/index.m3u8 | grep '^/' | wc -l)"
+	chunks_count="$(grep '^/' ${hls_dir}/index.m3u8 | wc -l)"
 	sleep 1
     done
     cat ${hls_dir}/index.m3u8 | error/200
