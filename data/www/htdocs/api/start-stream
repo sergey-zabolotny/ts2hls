@@ -25,11 +25,11 @@ else
 	fi
     done
 
-    # return m3u8 index to client only if we have minimum 2 chunks
+    # return m3u8 index to client only if we have minimum 4 chunks for hls, 2 chunks for other types
     chunks_count=0
     if [ "${type}" == "hls" ]
     then
-	while [ "${chunks_count}" -lt "3" ]
+	while [ "${chunks_count}" -lt "4" ]
 	do
 	    chunks_count="$(grep '^/' ${hls_dir}/index.m3u8 | wc -l)"
 	    sleep 1
